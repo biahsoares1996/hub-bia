@@ -1,0 +1,146 @@
+{
+  "hub_name": "Hub da Bia",
+  "version": "2.6.0",
+  "theme": "dark_craft",
+  "categories": [
+    "Todos",
+    "Navegação",
+    "Finanças",
+    "Segurança",
+    "Arquitetura"
+  ],
+  "apps": [
+    {
+      "id": "aurea_browser",
+      "name": "Áurea Browser",
+      "subtitle": "Navegador Pessoal & Multitarefa",
+      "category": "Navegação",
+      "version": "v1.0.0",
+      "icon": "assets/aurea.png",
+      "accent_color": "#2563EB",
+      "gradient_start": "#1E40AF",
+      "gradient_end": "#3B82F6",
+      "executable": "C:\\Users\\Biah Soares\\AppData\\Local\\Programs\\AureaBrowser\\Aurea.exe",
+      "fallback_script": "f:\\Meu Drive\\.AntigravityGoogle\\NavegadorBia\\aurea_browser\\main.py",
+      "download_url": "https://www.dropbox.com/scl/fi/18zfnkq9i4evf9g442g6o/Aurea_Browser_v1.0.0_Instalador.zip?rlkey=g6dqidtcu5c3c7awo52aphsbh&dl=1",
+      "process_names": [
+        "Aurea.exe",
+        "Aurea"
+      ],
+      "folder": "f:\\Meu Drive\\.AntigravityGoogle\\NavegadorBia",
+      "pinned": true
+    },
+    {
+      "id": "gatoceiro",
+      "name": "Gatoceiro",
+      "subtitle": "Controle Financeiro & Caixa",
+      "category": "Finanças",
+      "version": "v1.0.95",
+      "icon": "assets/gatoceiro.png",
+      "accent_color": "#F59E0B",
+      "gradient_start": "#D97706",
+      "gradient_end": "#FBBF24",
+      "executable": "f:\\Meu Drive\\.AntigravityGoogle\\Gatoceiro\\iniciar_gatoceiro.bat",
+      "fallback_script": "f:\\Meu Drive\\.AntigravityGoogle\\Gatoceiro\\dist\\Gatoceiro.exe",
+      "download_url": "https://www.dropbox.com/scl/fi/6yvt785fe64ibnanr3h4h/setup_gatoceiro_latest.exe?rlkey=cqff57sog495j76j099wimx2k&st=sbd3g1or&dl=1",
+      "process_names": [
+        "Gatoceiro.exe",
+        "Gatoceiro"
+      ],
+      "folder": "f:\\Meu Drive\\.AntigravityGoogle\\Gatoceiro",
+      "pinned": true
+    },
+    {
+      "id": "omnidvr",
+      "name": "OmniDVR",
+      "subtitle": "Central de CFTV & Câmeras",
+      "category": "Segurança",
+      "version": "v1.0.2",
+      "icon": "assets/omnidvr.png",
+      "accent_color": "#10B981",
+      "gradient_start": "#059669",
+      "gradient_end": "#10B981",
+      "executable": "D:\\DVR\\iniciar_dvr.bat",
+      "fallback_script": "D:\\DVR\\Iniciar_OmniDVR_App.bat",
+      "download_url": "https://www.dropbox.com/scl/fi/1w1rkc0yoqwpazirh9uij/Instalador_OmniDVR.exe?rlkey=g4im9oqxxqgwamcspbnmtmoxa&dl=1",
+      "process_names": [
+        "OmniDVR.exe",
+        "OmniDVR"
+      ],
+      "folder": "D:\\DVR",
+      "pinned": true
+    },
+    {
+      "id": "milux",
+      "name": "Plugin MiLux",
+      "subtitle": "Render IA & Blocos Dinâmicos",
+      "category": "Arquitetura",
+      "version": "v1.6.24",
+      "icon": "assets/milux.png",
+      "accent_color": "#EC4899",
+      "gradient_start": "#BE185D",
+      "gradient_end": "#EC4899",
+      "executable": "F:\\Meu Drive\\.AntigravityGoogle\\Instalador_Milux.exe",
+      "fallback_script": "F:\\Meu Drive\\.AntigravityGoogle\\milux_studio-BAT.exe",
+      "download_url": "https://www.dropbox.com/scl/fi/80dhw15tkoa161clpz478/Instalador_Milux.exe?rlkey=o8kgit5tiiqotmfamo1k2slfn&dl=1",
+      "actions": [
+        {
+          "title": "📦 Abrir Instalador do Plugin (EXE)",
+          "target": "F:\\Meu Drive\\.AntigravityGoogle\\Instalador_Milux.exe"
+        },
+        {
+          "title": "⚡ Abrir Milux Studio (BAT)",
+          "target": "F:\\Meu Drive\\.AntigravityGoogle\\milux_studio-BAT.exe"
+        }
+      ],
+      "process_names": [
+        "Instalador_Milux.exe",
+        "milux_studio-BAT.exe",
+        "milux_studio.exe"
+      ],
+      "folder": "F:\\Meu Drive\\.AntigravityGoogle\\PluginSketchUp",
+      "pinned": true
+    },
+    {
+      "id": "software_vault",
+      "name": "SketchUp Vault",
+      "subtitle": "Downloads & Instalador Básico",
+      "category": "Arquitetura",
+      "version": "v2.8.0",
+      "icon": "assets/software_vault.png",
+      "accent_color": "#8B5CF6",
+      "gradient_start": "#6D28D9",
+      "gradient_end": "#8B5CF6",
+      "executable": "F:\\Meu Drive\\.AntigravityGoogle\\SoftwareVault\\iniciar_software_vault.bat",
+      "fallback_script": "F:\\Meu Drive\\.AntigravityGoogle\\SoftwareVault\\sketchup_vault_app.py",
+      "download_url": "https://www.dropbox.com/scl/fi/j1rkcg5o3p9llnlj03t2s/SketchUp_Vault.exe?rlkey=ii2g3hiolwu7zkrh4eriulo37&dl=1",
+      "process_names": [
+        "SketchUp_Vault.exe",
+        "SketchUp_Vault"
+      ],
+      "folder": "F:\\Meu Drive\\.AntigravityGoogle\\SoftwareVault",
+      "pinned": true
+    },
+    {
+      "id": "biabim",
+      "name": "BiaBIM",
+      "subtitle": "Híbrido CAD 2D, SketchUp 3D & LayOut",
+      "category": "Arquitetura",
+      "version": "v1.0.0",
+      "icon": "assets/bim_da_bia.png",
+      "accent_color": "#EC4899",
+      "gradient_start": "#DB2777",
+      "gradient_end": "#F43F5E",
+      "executable": "F:\\Meu Drive\\.AntigravityGoogle\\SketchUp OpenSource\\launch.vbs",
+      "fallback_script": "C:\\Users\\Biah Soares\\Desktop\\BiaBIM.lnk",
+      "download_url": "https://www.dropbox.com/scl/fi/1muyhbrd3yupmzr58mp87/BIM_da_Bia_Rosa_v1.0.0.zip?rlkey=t7luxuclmo3ux7bw00rlkwck6&dl=1",
+      "process_names": [
+        "OpenSketch 2026.exe",
+        "BiaBIM.exe",
+        "bia-engine.exe"
+      ],
+      "folder": "F:\\Meu Drive\\.AntigravityGoogle\\SketchUp OpenSource",
+      "pinned": true
+    }
+  ]
+}

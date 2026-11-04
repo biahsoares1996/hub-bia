@@ -1,0 +1,11 @@
+{
+  "version": "2.6.1",
+  "name": "Hub da Bia",
+  "release_date": "2026-11-04",
+  "changelog": [
+    "Auto-update test version"
+  ],
+  "update_channel": "stable",
+  "download_url": "https://www.dropbox.com/scl/fi/j7mpi3x62xt26nzt2eeyj/Instalador_Hub_da_Bia.exe?rlkey=386ny0918la9su4lthlpaf31m&dl=1",
+  "zip_url": "https://www.dropbox.com/scl/fi/p9oubha0cr0agwb77143r/HubDaBia_Suite.zip?rlkey=0gxz2ew1hwe6d1jf126l8nijj&dl=1"
+}

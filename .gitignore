@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build artifacts
+build/
+dist/
+scratch/
+*.egg-info/
+*.spec
+
+# Installer artifacts
+HubDaBia_Suite.zip
+Instalador_Hub_da_Bia.exe
+
+# Local config / runtime (nao versionar)
+src/hubbia/config/
+%LOCALAPPDATA%/HubDaBia/
+%LOCALAPPDATA%/Programs/HubDaBia/
+
+# Secrets / Credentials
+.env
+.env.local
+dropbox_hub_token.json
+*.token.json
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Desktop.ini
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+hub_debug.log
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/

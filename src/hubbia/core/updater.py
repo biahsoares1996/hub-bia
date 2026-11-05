@@ -25,32 +25,56 @@ FALLBACK_APPS_URL = "https://github.com/biahsoares1996/hub-bia/releases/latest/d
 
 
 def get_installed_version_info() -> dict:
-    """Lê version.json do pacote instalado (_internal ou ao lado do exe)."""
+    """Lê version.json do pacote instalado (_internal ou ao lado do exe), escolhendo a versão mais recente e sincronizando arquivos residuais."""
     candidates = []
     try:
         from hubbia.core.paths import get_base_dir
         base = get_base_dir()
         if base:
-            candidates.extend([base / "version.json", base / "_internal" / "version.json"])
+            # _internal/version.json vem primeiro porque é onde o payload do pacote é descompactado
+            candidates.extend([base / "_internal" / "version.json", base / "version.json"])
     except Exception:
         pass
 
     if getattr(sys, "frozen", False):
         exe_dir = Path(sys.executable).resolve().parent
-        candidates.extend([exe_dir / "version.json", exe_dir / "_internal" / "version.json"])
+        candidates.extend([exe_dir / "_internal" / "version.json", exe_dir / "version.json"])
     else:
         dev_root = Path(__file__).resolve().parent.parent.parent.parent
         candidates.append(dev_root / "version.json")
 
+    best_data = None
+    best_file = None
+    existing_files = []
+
     for p in candidates:
-        if p and p.exists():
+        if p and p.exists() and p not in existing_files:
+            existing_files.append(p)
             try:
                 with open(p, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     if isinstance(data, dict) and "version" in data:
-                        return data
+                        if best_data is None:
+                            best_data = data
+                            best_file = p
+                        else:
+                            # Se houver conflito de arquivos, pega a versão mais recente
+                            if compare_versions(best_data.get("version", "0.0.0"), data.get("version", "0.0.0")) > 0:
+                                best_data = data
+                                best_file = p
             except Exception:
                 pass
+
+    if best_data:
+        # Sincroniza qualquer version.json residual para manter o diretório coerente
+        for p in existing_files:
+            if p != best_file:
+                try:
+                    with open(p, "w", encoding="utf-8") as f_sync:
+                        json.dump(best_data, f_sync, indent=2, ensure_ascii=False)
+                except Exception:
+                    pass
+        return best_data
 
     return {"version": CURRENT_VERSION}
 

@@ -91,6 +91,11 @@ def build():
         final_exe = out_dst / f"HubDaBia-v{VERSION}.exe"
         if final_exe.exists():
             shutil.copy2(final_exe, out_dst / "HubDaBia.exe")
+
+        # Garante version.json tanto na raiz do pacote quanto em _internal
+        shutil.copy2(base_dir / "version.json", out_dst / "version.json")
+        (out_dst / "_internal").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(base_dir / "version.json", out_dst / "_internal" / "version.json")
         
         print(f"\n[OK] SUCESSO! Executavel gerado com sucesso em:\n{out_dst / f'HubDaBia-v{VERSION}.exe'}")
         return True

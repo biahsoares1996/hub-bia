@@ -180,8 +180,10 @@ class InstallWorker(QThread):
             start_lnk = os.path.join(programs, "Hub da Bia.lnk")
             startup_lnk = os.path.join(startup_dir, "Hub da Bia.lnk")
 
-            exe_name = f"HubDaBia-v{INSTALLER_VERSION}.exe"
+            exe_name = "HubDaBia.exe"
             exe_path = os.path.join(target_dir, exe_name)
+            if not os.path.exists(exe_path):
+                exe_path = os.path.join(target_dir, f"HubDaBia-v{INSTALLER_VERSION}.exe")
 
             vbs_script = (
                 'Set ws = CreateObject("WScript.Shell")\n'

@@ -33,7 +33,7 @@ class SelfUpdateWorker(QThread):
         try:
             zip_url = self.update_info.get(
                 "zip_url",
-                "https://www.dropbox.com/scl/fi/p9oubha0cr0agwb77143r/HubDaBia_Suite.zip?rlkey=0gxz2ew1hwe6d1jf126l8nijj&dl=1"
+                "https://github.com/biahsoares1996/hub-bia/releases/latest/download/HubDaBia_Suite.zip"
             )
             version = self.update_info.get("version", "mais recente")
 
@@ -100,6 +100,9 @@ class SelfUpdateWorker(QThread):
                 frozen_dir = os.path.dirname(sys.executable)
                 if os.path.exists(os.path.join(frozen_dir, "HubDaBia.exe")):
                     install_dir = frozen_dir
+                    exe_target = os.path.join(frozen_dir, "HubDaBia.exe")
+                elif os.path.exists(sys.executable):
+                    install_dir = frozen_dir
                     exe_target = sys.executable
 
             helper_bat = os.path.join(tempfile.gettempdir(), "hub_apply_update.bat")
@@ -123,7 +126,17 @@ del /f /q "{temp_zip}" >nul 2>&1
 rd /s /q "{temp_extract}" >nul 2>&1
 
 rem 4. Reabrir o Hub atualizado
-start "" "{exe_target}"
+if exist "{install_dir}\\HubDaBia.exe" (
+    start "" "{install_dir}\\HubDaBia.exe"
+) else if exist "{install_dir}\\HubDaBia-v{version}.exe" (
+    start "" "{install_dir}\\HubDaBia-v{version}.exe"
+) else (
+    for /f "delims=" %%f in ('dir /b /o-d "{install_dir}\\HubDaBia*.exe"') do (
+        start "" "{install_dir}\\%%f"
+        goto FINISH
+    )
+)
+:FINISH
 exit
 '''
             with open(helper_bat, "w", encoding="utf-8") as f:

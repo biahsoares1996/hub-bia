@@ -18,8 +18,10 @@ try:
 except ImportError:
     CURRENT_VERSION = "2.6.0"
 
-DROPBOX_VERSION_URL = "https://www.dropbox.com/scl/fi/iksyr3qpxfuhrdd6trfp9/version.json?rlkey=brbhu3ruuqmo0cwhdehzbc8na&dl=1"
-DROPBOX_APPS_URL = "https://www.dropbox.com/scl/fi/z6jns3laaeng3s8a45nha/apps.json?rlkey=nxh0cd6kjgiy8irb4prule7db&dl=1"
+DEFAULT_VERSION_URL = "https://raw.githubusercontent.com/biahsoares1996/hub-bia/main/version.json"
+DEFAULT_APPS_URL = "https://raw.githubusercontent.com/biahsoares1996/hub-bia/main/config/apps.json"
+FALLBACK_VERSION_URL = "https://github.com/biahsoares1996/hub-bia/releases/latest/download/version.json"
+FALLBACK_APPS_URL = "https://github.com/biahsoares1996/hub-bia/releases/latest/download/apps.json"
 
 
 def get_installed_version_info() -> dict:
@@ -88,25 +90,42 @@ class UpdateCheckerThread(QThread):
                     print(f"[Updater] Erro ao ler version.json do Drive: {e}")
 
             if not target_data:
-                # 2. Busca na nuvem oficial Dropbox
+                # 2. Busca remota no GitHub (ou URL definida no version.json instalado)
                 local_info = get_installed_version_info()
-                url = local_info.get("update_url", DROPBOX_VERSION_URL)
+                url = local_info.get("update_url", DEFAULT_VERSION_URL)
                 if url.startswith("http://") or url.startswith("https://"):
-                    req = urllib.request.Request(url, headers={"User-Agent": f"HubDaBia-Updater/{CURRENT_VERSION}"})
-                    with urllib.request.urlopen(req, timeout=30) as resp:
-                        target_data = json.loads(resp.read().decode("utf-8"))
+                    try:
+                        req = urllib.request.Request(url, headers={"User-Agent": f"HubDaBia-Updater/{CURRENT_VERSION}"})
+                        with urllib.request.urlopen(req, timeout=15) as resp:
+                            target_data = json.loads(resp.read().decode("utf-8"))
+                    except Exception as e_fetch:
+                        print(f"[Updater] Erro ao buscar da URL principal ({url}): {e_fetch}. Tentando fallback...")
+                        try:
+                            req_fb = urllib.request.Request(FALLBACK_VERSION_URL, headers={"User-Agent": f"HubDaBia-Updater/{CURRENT_VERSION}"})
+                            with urllib.request.urlopen(req_fb, timeout=15) as resp_fb:
+                                target_data = json.loads(resp_fb.read().decode("utf-8"))
+                        except Exception as e_fb:
+                            print(f"[Updater] Erro no fallback: {e_fb}")
 
             # Sincronização remota de catálogo de apps e versões em segundo plano
             try:
                 from hubbia.core.paths import get_config_dir
-                req_apps = urllib.request.Request(DROPBOX_APPS_URL, headers={"User-Agent": f"HubDaBia-Updater/{CURRENT_VERSION}"})
-                with urllib.request.urlopen(req_apps, timeout=8) as resp_apps:
-                    remote_apps = json.loads(resp_apps.read().decode("utf-8"))
-                    if remote_apps and "apps" in remote_apps:
-                        local_hub_dir = get_config_dir()
-                        local_hub_dir.mkdir(parents=True, exist_ok=True)
-                        with open(local_hub_dir / "apps.json", "w", encoding="utf-8") as f_a:
-                            json.dump(remote_apps, f_a, indent=2, ensure_ascii=False)
+                local_info = get_installed_version_info()
+                apps_url = local_info.get("apps_url", DEFAULT_APPS_URL)
+                try:
+                    req_apps = urllib.request.Request(apps_url, headers={"User-Agent": f"HubDaBia-Updater/{CURRENT_VERSION}"})
+                    with urllib.request.urlopen(req_apps, timeout=10) as resp_apps:
+                        remote_apps = json.loads(resp_apps.read().decode("utf-8"))
+                except Exception:
+                    req_apps_fb = urllib.request.Request(FALLBACK_APPS_URL, headers={"User-Agent": f"HubDaBia-Updater/{CURRENT_VERSION}"})
+                    with urllib.request.urlopen(req_apps_fb, timeout=10) as resp_apps:
+                        remote_apps = json.loads(resp_apps.read().decode("utf-8"))
+
+                if remote_apps and "apps" in remote_apps:
+                    local_hub_dir = get_config_dir()
+                    local_hub_dir.mkdir(parents=True, exist_ok=True)
+                    with open(local_hub_dir / "apps.json", "w", encoding="utf-8") as f_a:
+                        json.dump(remote_apps, f_a, indent=2, ensure_ascii=False)
             except Exception as e_a:
                 print(f"[Updater] Aviso ao sincronizar apps.json remoto: {e_a}")
 

@@ -6,6 +6,7 @@
     "Auto-update test version"
   ],
   "update_channel": "stable",
+  "update_url": "https://raw.githubusercontent.com/biahsoares1996/hub-bia/main/version.json",
   "download_url": "https://github.com/biahsoares1996/hub-bia/releases/download/v2.6.2/Instalador_Hub_da_Bia-v2.6.2.exe",
   "zip_url": "https://github.com/biahsoares1996/hub-bia/releases/download/v2.6.2/HubDaBia_Suite.zip"
 }

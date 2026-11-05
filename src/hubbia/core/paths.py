@@ -33,6 +33,14 @@ APP_NAME = "HubDaBia"
 APP_AUTHOR = "BiaStudio"
 
 
+def get_base_dir() -> Path:
+    """Retorna o diretório base da instalação (diretório que contém _internal ou raiz da aplicação)."""
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    # Modo desenvolvimento: raiz do repositório
+    return Path(__file__).resolve().parent.parent.parent.parent
+
+
 def get_package_dir() -> Path:
     """Retorna o diretório do pacote hubbia (src/hubbia) onde estão assets, ui, core."""
     if getattr(sys, "frozen", False):

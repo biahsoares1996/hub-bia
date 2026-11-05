@@ -53,6 +53,7 @@ def build():
         "--windowed",
         "--noconfirm",
         f"--icon={str(icon_path)}",
+        "--paths=src",
         "--add-data=src/hubbia/assets;src/hubbia/assets",
         "--add-data=version.json;.",
         # Hidden imports para garantir que o pacote hubbia seja incluído
@@ -86,10 +87,10 @@ def build():
                 pass
         shutil.copytree(local_build / "dist" / f"HubDaBia-v{VERSION}", out_dst)
         
-        # Renomeia o executável final com a versão
+        # Renomeia/garante o executável final com a versão e cria HubDaBia.exe
         final_exe = out_dst / f"HubDaBia-v{VERSION}.exe"
-        if (out_dst / f"HubDaBia-v{VERSION}.exe").exists():
-            pass  # já tem o nome correto
+        if final_exe.exists():
+            shutil.copy2(final_exe, out_dst / "HubDaBia.exe")
         
         print(f"\n[OK] SUCESSO! Executavel gerado com sucesso em:\n{out_dst / f'HubDaBia-v{VERSION}.exe'}")
         return True

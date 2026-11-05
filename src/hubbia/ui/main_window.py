@@ -17,7 +17,7 @@ from PySide6.QtCore import Qt, QPoint, QTimer, Signal
 from PySide6.QtGui import QIcon, QPixmap, QCursor, QColor
 
 from hubbia.core.launcher import AppManager, get_running_process_names
-from hubbia.core.updater import UpdateCheckerThread, CURRENT_VERSION
+from hubbia.core.updater import UpdateCheckerThread, CURRENT_VERSION, get_current_app_version
 from hubbia.core.app_installer import AppInstallerThread
 from hubbia.core.paths import get_asset_path
 from hubbia.ui.styles import DARK_THEME_QSS
@@ -103,7 +103,8 @@ class MainWindow(QMainWindow):
         title_lbl.setObjectName("TitleLabel")
         layout.addWidget(title_lbl)
 
-        version_badge = QLabel(f"CRAFT SUITE v{CURRENT_VERSION}")
+        cur_ver = get_current_app_version()
+        version_badge = QLabel(f"CRAFT SUITE v{cur_ver}")
         version_badge.setObjectName("TitleVersionBadge")
         layout.addWidget(version_badge)
 
@@ -186,7 +187,8 @@ class MainWindow(QMainWindow):
     def _on_no_update(self, manual=False):
         self.update_btn.setText("🔄 Atualizações")
         if manual:
-            QMessageBox.information(self, "Atualizações", f"Você já está utilizando a versão mais recente do Hub da Bia (v{CURRENT_VERSION}).")
+            cur_ver = get_current_app_version()
+            QMessageBox.information(self, "Atualizações", f"Você já está utilizando a versão mais recente do Hub da Bia (v{cur_ver}).")
 
     def _on_update_error(self, err: str):
         self.update_btn.setText("🔄 Atualizações")

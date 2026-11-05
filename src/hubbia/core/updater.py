@@ -26,28 +26,38 @@ FALLBACK_APPS_URL = "https://github.com/biahsoares1996/hub-bia/releases/latest/d
 
 def get_installed_version_info() -> dict:
     """Lê version.json do pacote instalado (_internal ou ao lado do exe)."""
-    from hubbia.core.paths import get_base_dir
-
-    base_dir = get_base_dir()
-    for p in [base_dir / "version.json", base_dir / "_internal" / "version.json"]:
-        if p.exists():
-            try:
-                with open(p, "r", encoding="utf-8") as f:
-                    return json.load(f)
-            except Exception:
-                pass
+    candidates = []
+    try:
+        from hubbia.core.paths import get_base_dir
+        base = get_base_dir()
+        if base:
+            candidates.extend([base / "version.json", base / "_internal" / "version.json"])
+    except Exception:
+        pass
 
     if getattr(sys, "frozen", False):
         exe_dir = Path(sys.executable).resolve().parent
-        for p in [exe_dir / "version.json", exe_dir / "_internal" / "version.json"]:
-            if p.exists():
-                try:
-                    with open(p, "r", encoding="utf-8") as f:
-                        return json.load(f)
-                except Exception:
-                    pass
+        candidates.extend([exe_dir / "version.json", exe_dir / "_internal" / "version.json"])
+    else:
+        dev_root = Path(__file__).resolve().parent.parent.parent.parent
+        candidates.append(dev_root / "version.json")
+
+    for p in candidates:
+        if p and p.exists():
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    if isinstance(data, dict) and "version" in data:
+                        return data
+            except Exception:
+                pass
 
     return {"version": CURRENT_VERSION}
+
+
+def get_current_app_version() -> str:
+    """Retorna a versão atualmente instalada em execução."""
+    return get_installed_version_info().get("version", CURRENT_VERSION)
 
 
 def compare_versions(v1_str: str, v2_str: str) -> int:
